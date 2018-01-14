@@ -326,25 +326,7 @@ public class SystemProperties {
                     throw new RuntimeException("Only one of two options should be defined: 'blockchain.config.name' and 'blockchain.config.class'");
                 }
                 if (config.hasPath("blockchain.config.name")) {
-                    switch (config.getString("blockchain.config.name")) {
-                        case "main":
-                            blockchainConfig = new MainNetConfig();
-                            break;
-                        case "olympic":
-                            blockchainConfig = new OlympicConfig();
-                            break;
-                        case "morden":
-                            blockchainConfig = new MordenNetConfig();
-                            break;
-                        case "ropsten":
-                            blockchainConfig = new RopstenNetConfig();
-                            break;
-                        case "testnet":
-                            blockchainConfig = new TestNetConfig();
-                            break;
-                        default:
-                            throw new RuntimeException("Unknown value for 'blockchain.config.name': '" + config.getString("blockchain.config.name") + "'");
-                    }
+                    getBlockchainConfigSwitch();
                 } else {
                     String className = config.getString("blockchain.config.class");
                     try {
@@ -369,6 +351,28 @@ public class SystemProperties {
             }
         }
         return blockchainConfig;
+    }
+
+    private void getBlockchainConfigSwitch() {
+        switch (config.getString("blockchain.config.name")) {
+            case "main":
+                blockchainConfig = new MainNetConfig();
+                break;
+            case "olympic":
+                blockchainConfig = new OlympicConfig();
+                break;
+            case "morden":
+                blockchainConfig = new MordenNetConfig();
+                break;
+            case "ropsten":
+                blockchainConfig = new RopstenNetConfig();
+                break;
+            case "testnet":
+                blockchainConfig = new TestNetConfig();
+                break;
+            default:
+                throw new RuntimeException("Unknown value for 'blockchain.config.name': '" + config.getString("blockchain.config.name") + "'");
+        }
     }
 
     public void setBlockchainConfig(BlockchainNetConfig config) {
