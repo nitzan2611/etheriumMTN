@@ -47,7 +47,7 @@ import java.security.SecureRandom;
 import static org.ethereum.crypto.HashUtil.sha3;
 import static org.junit.Assert.assertEquals;
 
-public class CryptoTest {
+public class    CryptoTest {
 
     private static final Logger log = LoggerFactory.getLogger("test");
 
