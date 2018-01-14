@@ -12,26 +12,26 @@ if (nonce.length != 8)
             i++;
         }
 
-        int numFullPages = (int) (fullSize / params.getMIX_BYTES());
+        int numFullPages = (int) (fullSize / params.getMIX_BYTES()); // No side-effect
         i=0;
-        while(i < params.getACCESSES()){
-            int p = remainderUnsigned(fnv(i ^ s[0], mix[i % w]), numFullPages);
+        while(i < params.getACCESSES()){//No side-effect
+            int p = remainderUnsigned(fnv(i ^ s[0], mix[i % w]), numFullPages);// No side-effect
             int[] newData = new int[mix.length];
             int off = p * mixhashes;
             int j = 0;
             while(j<mixhashes){
                 int itemIdx = off + j;
                 if (!full) {
-                    int[] lookup1 = calcDatasetItem(cacheOrDataset, itemIdx);
-                    arraycopy(lookup1, 0, newData, j * lookup1.length, lookup1.length);
+                    int[] lookup1 = calcDatasetItem(cacheOrDataset, itemIdx); //No side-effect
+                    arraycopy(lookup1, 0, newData, j * lookup1.length, lookup1.length); //changes newData
                 } else {
-                    arraycopy(cacheOrDataset, itemIdx * hashWords, newData, j * hashWords, hashWords);
+                    arraycopy(cacheOrDataset, itemIdx * hashWords, newData, j * hashWords, hashWords);//changes newData
                 }
                 j++;
             }
             int i1 = 0;
             while(i1<mix.length){
-                mix[i1] = fnv(mix[i1], newData[i1]);
+                mix[i1] = fnv(mix[i1], newData[i1]); // No side effect
                 i1++;
             }
             i++;
